@@ -6,6 +6,10 @@ let cookies = {};
 
 export const options = {
     maxRedirects: 0,
+    thresholds: {
+        http_req_duration: ['p(95)<1000'],
+        http_req_failed: ['rate<0.01']
+    },
     stages: [
         {
             duration: '5s',
@@ -48,8 +52,7 @@ export default function () {
     const params = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        follow: false
+        }
     };
 
     const loginRes = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate', payload, params);
@@ -61,4 +64,21 @@ export default function () {
 
     cookies = loginRes.cookies;
     console.log('Login successful! Cookies:', cookies);
+
+    const payload2 = {
+        title: 'Title Test',
+        description: 'My description',
+        note: 'My Note'
+    };
+    const params2 = {
+        headers: {
+            Cookies: cookies,
+        }
+    };
+
+    const admin = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/job-titles', payload2, params2);
+    
+    check(admin, {
+        'Status Code': (r) => r.status === 200,
+    });
 }
