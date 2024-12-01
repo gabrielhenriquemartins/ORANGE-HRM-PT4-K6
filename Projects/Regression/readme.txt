@@ -1,5 +1,5 @@
-Smoke Run
-$env:EXECUTION_TYPE="smoke"; k6 run regression.js
+Smoke Run (main folder)
+$env:EXECUTION_TYPE="smoke"; k6 run .\Projects\Regression\regression.js
 
-Load Run
-$env:EXECUTION_TYPE="load"; k6 run regression.js
+Load Run (main folder)
+$env:EXECUTION_TYPE="load"; k6 run .\Projects\Regression\regression.js
