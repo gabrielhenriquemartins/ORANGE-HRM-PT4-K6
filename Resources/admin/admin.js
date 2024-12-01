@@ -166,3 +166,40 @@ export function changeCorpBrand(cookies, expectedStatusCode) {
         console.log(`Changed Corp Brand successfully!`);
     }
 }
+
+export function activeModules(cookies, expectedStatusCode) {
+    const payload = JSON.stringify({
+        "admin": true,
+        "pim": true,
+        "leave": true,
+        "time": true,
+        "recruitment": true,
+        "performance": true,
+        "maintenance": true,
+        "mobile": true,
+        "directory": true,
+        "claim": true,
+        "buzz": true
+      });
+
+    const params = {
+        headers: {
+            "Content-Type": "application/json",
+            Cookies: cookies,
+        }
+    };
+
+    const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/modules', payload, params);
+
+    sleep(3)
+
+    const valid = check(res, {
+        [`Active Modules: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
+    });
+
+    if (!valid) {
+        throw new Error('Module activation failed');
+    } else {
+        console.log('Modules activated successfully!');
+    }
+}
