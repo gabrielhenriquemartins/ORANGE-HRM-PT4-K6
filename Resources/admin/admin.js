@@ -125,3 +125,44 @@ export function changeLanguageEnglish(cookies, expectedStatusCode) {
         console.log(`Language Changed successfully!`);
     }
 }
+
+export function changeCorpBrand(cookies, expectedStatusCode) {
+    const payload = JSON.stringify({
+        "variables": {
+          "primaryColor": "#FF7B1D",
+          "primaryFontColor": "#FFFFFF",
+          "secondaryColor": "#76BC21",
+          "secondaryFontColor": "#FFFFFF",
+          "primaryGradientStartColor": "#FF920B",
+          "primaryGradientEndColor": "#F35C17"
+        },
+        "showSocialMediaImages": true,
+        "currentClientLogo": null,
+        "clientLogo": null,
+        "currentClientBanner": null,
+        "clientBanner": null,
+        "currentLoginBanner": null,
+        "loginBanner": null
+      });
+
+    const params = {
+        headers: {
+            "Content-Type": "application/json",
+            Cookies: cookies,
+        }
+    };
+
+    const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/theme', payload, params);
+
+    sleep(3)
+
+    const valid = check(res, {
+        [`Change Corp Brand: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
+    });
+
+    if (!valid) {
+        throw new Error('Change Corp Brand failed');
+    }else{
+        console.log(`Changed Corp Brand successfully!`);
+    }
+}
