@@ -97,3 +97,31 @@ export function emailConfiguration(cookies, expectedStatusCode) {
         console.log(`Email configured successfully!`);
     }
 }
+
+export function changeLanguageEnglish(cookies, expectedStatusCode) {
+    const payload = JSON.stringify({
+        "language": "en_US",
+        "dateFormat": "Y-d-m"
+      });
+
+    const params = {
+        headers: {
+            "Content-Type": "application/json",
+            Cookies: cookies,
+        }
+    };
+
+    const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/localization', payload, params);
+
+    sleep(3)
+
+    const valid = check(res, {
+        [`Language Change to English: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
+    });
+
+    if (!valid) {
+        throw new Error('Language Change failed');
+    }else{
+        console.log(`Language Changed successfully!`);
+    }
+}
