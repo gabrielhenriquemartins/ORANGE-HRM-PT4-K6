@@ -13,7 +13,7 @@ export function getLoginPage() {
     });
 
     if (!valid) {
-        throw new Error('Failed to fetch login page or extract token.');
+        throw new Error('Failed to extract token.');
     }
 
     return token;
