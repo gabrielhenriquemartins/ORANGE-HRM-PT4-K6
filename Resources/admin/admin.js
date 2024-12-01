@@ -31,7 +31,7 @@ export function createJobTitle(cookies, title, description, note, expectedStatus
     if (!jobId) {
         throw new Error('Failed to retrieve job ID from the response.');
     }else{
-        console.log(`Job title created successfully! ID: ${jobId}`);
+        console.log(`Job title ${title} created successfully! ID: ${jobId}`);
     }
     return jobId;
 }
