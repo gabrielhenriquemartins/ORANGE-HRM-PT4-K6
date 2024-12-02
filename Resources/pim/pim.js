@@ -7,7 +7,7 @@ export function addEmployee(cookies, firstName, middleName, lastName, id, expect
         "middleName": middleName,
         "lastName": lastName,
         "empPicture": null,
-        "employeeId": id
+        "employeeId": id.toString()
     });
 
     const params = {
@@ -35,7 +35,7 @@ export function addEmployee(cookies, firstName, middleName, lastName, id, expect
     if (!employeeId) {
         throw new Error('Failed to retrieve employee ID from the response.');
     }else{
-        console.log(`Employee ${firstName} added successfully! ID: ${employeeId}`);
+        console.log(`Employee ${firstName} with internal ID ${id} added successfully! ID in Database: ${employeeId}`);
     }
     return employeeId;
 }

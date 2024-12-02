@@ -7,9 +7,8 @@ import { gerPersonalInfo } from '../../Resources/myInfo/myInfo.js';
 import { createKpi, deleteKpi } from '../../Resources/performance/performance.js';
 import { getJobTitles } from '../../Resources/recruitment/recruitment.js';
 import { addEmployee, removeEmployee } from '../../Resources/pim/pim.js';
-
-
-import { randomString } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+import { getDateTime, getAllPunchInOut } from '../../Resources/time/time.js';
+import { randomString, randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js"; //https://github.com/benc-uk/k6-reporter
 import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
 
@@ -44,19 +43,24 @@ export default function () {
     gerPersonalInfo(cookies, 200);
     //***********************************
 
-    //************* Performance *************
+    //************* Performance *********
     const kpiID = createKpi(cookies, 'KPI - ' + randomString(6), 200);
     deleteKpi(cookies, kpiID, 200);
-    //***************************************
+    //***********************************
 
-    //************* Recruitment *************
+    //************* Recruitment *********
     getJobTitles(cookies, 200);
-    //***************************************
+    //***********************************
 
-    //************* PIM *************
-    const employeeID = addEmployee(cookies, "Gabriel", "Henrique", "Martins", "98757", 200);
+    //************* PIM *****************
+    const employeeID = addEmployee(cookies, "Gabriel", "Henrique", "Martins", randomIntBetween(10000, 20000), 200);
     removeEmployee(cookies, employeeID, 200);
-    //*******************************
+    //***********************************
+    
+    //************* TIME ****************
+    const dateUTC = getDateTime(cookies, 200);
+    getAllPunchInOut(cookies, dateUTC, 200);
+    //***********************************
 }
 
 export function handleSummary(data) {
