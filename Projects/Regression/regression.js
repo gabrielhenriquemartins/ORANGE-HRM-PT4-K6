@@ -1,6 +1,8 @@
 import { smokeTestStages, loadTestStages } from './regression_stages.js';
 import { getLoginPage, login } from "../../Resources/login/login.js";
 import { createJobTitle, deleteJobTitle, emailConfiguration, changeLanguageEnglish, changeCorpBrand, activeModules } from '../../Resources/admin/admin.js';
+import { createExpenseType, deleteExpenseType } from '../../Resources/claim/claim.js';
+import { createLeaveType, deleteLeaveType } from '../../Resources/leave/leave.js';
 import { randomString } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js"; //https://github.com/benc-uk/k6-reporter
 import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.1/index.js";
@@ -23,6 +25,15 @@ export default function () {
     //*********************************
 
     //************* Claim *************
+    const expenseTypeID = createExpenseType(cookies, 'New Expense - ' + randomString(6), 'My description', 200);
+    deleteExpenseType(cookies, expenseTypeID, 200);
+    //*********************************
+
+    //************* Leave *************
+    const leaveTypeID = createLeaveType(cookies, 'New Leave - ' + randomString(6), 200);
+    deleteLeaveType(cookies, leaveTypeID, 200);
+    //*********************************
+
 }
 
 export function handleSummary(data) {
