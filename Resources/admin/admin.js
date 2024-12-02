@@ -1,5 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+
 
 export function createJobTitle(cookies, title, description, note, expectedStatusCode) {
     const payload = {
@@ -13,7 +15,7 @@ export function createJobTitle(cookies, title, description, note, expectedStatus
         }
     };
 
-    sleep(3);
+    sleep(randomIntBetween(1, 4));
 
     const res = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/job-titles', payload, params);
 
@@ -50,7 +52,7 @@ export function deleteJobTitle(cookies, jobID, expectedStatusCode) {
 
     const res = http.del('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/job-titles', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Job Title Deleted: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -85,7 +87,7 @@ export function emailConfiguration(cookies, expectedStatusCode) {
 
     const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/email-configuration', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Email Configuration: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -113,7 +115,7 @@ export function changeLanguageEnglish(cookies, expectedStatusCode) {
 
     const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/localization', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Language Change to English: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -154,7 +156,7 @@ export function changeCorpBrand(cookies, expectedStatusCode) {
 
     const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/theme', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Change Corp Brand: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -191,7 +193,7 @@ export function activeModules(cookies, expectedStatusCode) {
 
     const res = http.put('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/modules', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Active Modules: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,

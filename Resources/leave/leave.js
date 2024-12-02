@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export function createLeaveType(cookies, leaveType, expectedStatusCode) {
     const payload = JSON.stringify({
@@ -16,7 +17,7 @@ export function createLeaveType(cookies, leaveType, expectedStatusCode) {
 
     const res = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/leave/leave-types', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`New Leave Type Created: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -51,7 +52,7 @@ export function deleteLeaveType(cookies, leaveTypeID, expectedStatusCode) {
 
     const res = http.del('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/leave/leave-types', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Leave Type Deleted: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,

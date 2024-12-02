@@ -1,10 +1,13 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 import { extractToken } from '../../Utils/utils.js';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export function getLoginPage() {
     const res = http.get('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-    sleep(3)
+
+    sleep(randomIntBetween(1, 4));
+
     const token = extractToken(res.body);
 
     const valid = check(res, {
@@ -31,7 +34,7 @@ export function login(token, username, password, expectedStatusCode) {
         }
     };
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const res = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate', payload, params);
 

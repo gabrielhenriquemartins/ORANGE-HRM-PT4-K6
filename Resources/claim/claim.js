@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export function createExpenseType(cookies, expenseType, description, expectedStatusCode) {
     const payload = JSON.stringify({
@@ -17,7 +18,7 @@ export function createExpenseType(cookies, expenseType, description, expectedSta
 
     const res = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/claim/expenses/types', payload, params);
 
-    sleep(3)
+   sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`New Expense Type Created: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -52,7 +53,7 @@ export function deleteExpenseType(cookies, expenseTypeID, expectedStatusCode) {
 
     const res = http.del('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/claim/expenses/types', payload, params);
 
-    sleep(3)
+   sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`Expense Type Deleted: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,

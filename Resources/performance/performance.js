@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { randomIntBetween } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 export function createKpi(cookies, kpi, expectedStatusCode) {
     const payload = JSON.stringify({
@@ -19,7 +20,7 @@ export function createKpi(cookies, kpi, expectedStatusCode) {
 
     const res = http.post('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/performance/kpis', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`New KPI Created: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
@@ -54,7 +55,7 @@ export function deleteKpi(cookies, kpiID, expectedStatusCode) {
 
     const res = http.del('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/performance/kpis', payload, params);
 
-    sleep(3)
+    sleep(randomIntBetween(1, 4));
 
     const valid = check(res, {
         [`KPI Deleted: Status Code is ${expectedStatusCode}`]: (r) => r.status === expectedStatusCode,
